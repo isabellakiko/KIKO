@@ -1,0 +1,37 @@
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+external-controller: 127.0.0.1:9090
+secret: ""
+
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  default-nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
+  nameserver:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+
+proxies:
+  - name: "Tokyo-Trojan"
+    type: trojan
+    server: tokyo.jameschan.cloud
+    port: 443
+    password: "james-vpn-5225"
+    sni: tokyo.jameschan.cloud
+    skip-cert-verify: true
+    udp: true
+
+proxy-groups:
+  - name: GLOBAL
+    type: select
+    proxies:
+      - Tokyo-Trojan
+      - DIRECT
+      - REJECT
+
+rules:
+  - MATCH,GLOBAL
