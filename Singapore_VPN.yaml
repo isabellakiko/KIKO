@@ -11,7 +11,6 @@ log-level: info
 external-controller: '127.0.0.1:9090'
 ipv6: false
 
-# 代理设置
 proxies:
   - name: "Singapore V2Ray"
     type: vmess
@@ -29,7 +28,6 @@ proxies:
       headers:
         Host: 45.77.38.92
 
-# 代理组
 proxy-groups:
   - name: PROXY
     type: select
@@ -42,39 +40,32 @@ proxy-groups:
     proxies:
       - DIRECT
       - PROXY
-      - Singapore V2Ray
 
   - name: Google
     type: select
     proxies:
       - PROXY
       - DIRECT
-      - Singapore V2Ray
 
   - name: Microsoft
     type: select
     proxies:
       - DIRECT
       - PROXY
-      - Singapore V2Ray
 
   - name: Netflix
     type: select
     proxies:
       - PROXY
       - DIRECT
-      - Singapore V2Ray
 
   - name: Global
     type: select
     proxies:
       - PROXY
       - DIRECT
-      - Singapore V2Ray
 
-# 规则设置
 rules:
-  # 直连规则
   - DOMAIN-SUFFIX,cn,DIRECT
   - DOMAIN-KEYWORD,baidu,DIRECT
   - DOMAIN-KEYWORD,alibaba,DIRECT
@@ -86,8 +77,7 @@ rules:
   - DOMAIN-KEYWORD,tencent,DIRECT
   - DOMAIN-KEYWORD,weixin,DIRECT
   - DOMAIN-KEYWORD,bilibili,DIRECT
-  
-  # Apple 服务
+
   - DOMAIN-SUFFIX,apple.com,Apple
   - DOMAIN-SUFFIX,icloud.com,Apple
   - DOMAIN-SUFFIX,itunes.com,Apple
@@ -99,8 +89,7 @@ rules:
   - DOMAIN-SUFFIX,cdn-apple.com,Apple
   - DOMAIN-SUFFIX,apple.co,Apple
   - DOMAIN-SUFFIX,apple.cn,Apple
-  
-  # Google 服务
+
   - DOMAIN-SUFFIX,google.com,Google
   - DOMAIN-SUFFIX,google.co.jp,Google
   - DOMAIN-SUFFIX,googlevideo.com,Google
@@ -113,8 +102,7 @@ rules:
   - DOMAIN-SUFFIX,googleadservices.com,Google
   - DOMAIN-SUFFIX,googleapis.cn,Google
   - DOMAIN-SUFFIX,google.hk,Google
-  
-  # Microsoft 服务
+
   - DOMAIN-SUFFIX,microsoft.com,Microsoft
   - DOMAIN-SUFFIX,msecnd.net,Microsoft
   - DOMAIN-SUFFIX,msedge.net,Microsoft
@@ -131,8 +119,7 @@ rules:
   - DOMAIN-SUFFIX,github.io,Microsoft
   - DOMAIN-SUFFIX,githubusercontent.com,Microsoft
   - DOMAIN-SUFFIX,skype.com,Microsoft
-  
-  # Netflix 相关
+
   - DOMAIN-SUFFIX,netflix.com,Netflix
   - DOMAIN-SUFFIX,netflix.net,Netflix
   - DOMAIN-SUFFIX,nflxext.com,Netflix
@@ -140,11 +127,14 @@ rules:
   - DOMAIN-SUFFIX,nflximg.net,Netflix
   - DOMAIN-SUFFIX,nflxso.net,Netflix
   - DOMAIN-SUFFIX,nflxvideo.net,Netflix
-  
-  # 常用国外网站
+
   - DOMAIN-SUFFIX,openai.com,PROXY
   - DOMAIN-SUFFIX,chatgpt.com,PROXY
   - DOMAIN-SUFFIX,anthropic.com,PROXY
+  - DOMAIN-SUFFIX,claude.ai,PROXY
+  - DOMAIN-SUFFIX,api.anthropic.com,PROXY
+  - DOMAIN-SUFFIX,cdn.anthropic.com,PROXY
+
   - DOMAIN-SUFFIX,discord.com,PROXY
   - DOMAIN-SUFFIX,t.co,PROXY
   - DOMAIN-SUFFIX,twitter.com,PROXY
@@ -167,8 +157,7 @@ rules:
   - DOMAIN-SUFFIX,medium.com,PROXY
   - DOMAIN-SUFFIX,vimeo.com,PROXY
   - DOMAIN-SUFFIX,twitch.tv,PROXY
-  
-  # 学术网站
+
   - DOMAIN-SUFFIX,sci-hub.tw,PROXY
   - DOMAIN-SUFFIX,sci-hub.st,PROXY
   - DOMAIN-SUFFIX,sci-hub.se,PROXY
@@ -182,15 +171,11 @@ rules:
   - DOMAIN-SUFFIX,sciencedirect.com,PROXY
   - DOMAIN-SUFFIX,acm.org,PROXY
 
-  # 局域网和保留地址直连
   - IP-CIDR,10.0.0.0/8,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT
   - IP-CIDR,172.16.0.0/12,DIRECT
   - IP-CIDR,192.168.0.0/16,DIRECT
   - IP-CIDR,224.0.0.0/4,DIRECT
-  
-  # 中国IP直连
   - GEOIP,CN,DIRECT
-  
-  # 最终规则
   - MATCH,Global
+
