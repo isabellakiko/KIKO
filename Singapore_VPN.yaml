@@ -1,35 +1,80 @@
-proxies:
-  - name: "Tokyo VPN"
-    type: ss
-    server: 45.77.38.92
-    port: 8388
-    cipher: aes-256-gcm
-    password: "Tokyo-vpn 2025"
-    udp: true
+#---------------------------------------------------#
+# Clash Verge 配置文件 - 新加坡V2Ray服务器
+#---------------------------------------------------#
 
+# 常规设置
+mixed-port: 7890
+allow-lan: true
+bind-address: '*'
+mode: rule
+log-level: info
+external-controller: '127.0.0.1:9090'
+ipv6: false
+
+# 代理设置
+proxies:
+  - name: "Singapore V2Ray"
+    type: vmess
+    server: 45.77.38.92
+    port: 10086
+    uuid: 8f91b6a0-ea8e-11ea-adc1-0242ac120002
+    alterId: 0
+    cipher: auto
+    udp: true
+    tls: false
+    skip-cert-verify: false
+    network: ws
+    ws-opts:
+      path: /ray
+      headers:
+        Host: 45.77.38.92
+
+# 代理组
 proxy-groups:
   - name: PROXY
     type: select
     proxies:
-      - Tokyo VPN
+      - Singapore V2Ray
       - DIRECT
-  
+
   - name: Apple
     type: select
     proxies:
       - DIRECT
       - PROXY
-      - Tokyo VPN
+      - Singapore V2Ray
 
   - name: Google
     type: select
     proxies:
       - PROXY
       - DIRECT
-      - Tokyo VPN
+      - Singapore V2Ray
 
+  - name: Microsoft
+    type: select
+    proxies:
+      - DIRECT
+      - PROXY
+      - Singapore V2Ray
+
+  - name: Netflix
+    type: select
+    proxies:
+      - PROXY
+      - DIRECT
+      - Singapore V2Ray
+
+  - name: Global
+    type: select
+    proxies:
+      - PROXY
+      - DIRECT
+      - Singapore V2Ray
+
+# 规则设置
 rules:
-  # 直连国内网站
+  # 直连规则
   - DOMAIN-SUFFIX,cn,DIRECT
   - DOMAIN-KEYWORD,baidu,DIRECT
   - DOMAIN-KEYWORD,alibaba,DIRECT
@@ -38,42 +83,114 @@ rules:
   - DOMAIN-KEYWORD,163,DIRECT
   - DOMAIN-KEYWORD,126,DIRECT
   - DOMAIN-KEYWORD,qq,DIRECT
+  - DOMAIN-KEYWORD,tencent,DIRECT
   - DOMAIN-KEYWORD,weixin,DIRECT
-  - DOMAIN-KEYWORD,wechat,DIRECT
+  - DOMAIN-KEYWORD,bilibili,DIRECT
   
-  # Apple服务
+  # Apple 服务
   - DOMAIN-SUFFIX,apple.com,Apple
   - DOMAIN-SUFFIX,icloud.com,Apple
   - DOMAIN-SUFFIX,itunes.com,Apple
+  - DOMAIN-SUFFIX,apple-cloudkit.com,Apple
+  - DOMAIN-SUFFIX,apple-livephotoskit.com,Apple
+  - DOMAIN-SUFFIX,me.com,Apple
+  - DOMAIN-SUFFIX,mzstatic.com,Apple
+  - DOMAIN-SUFFIX,aaplimg.com,Apple
   - DOMAIN-SUFFIX,cdn-apple.com,Apple
+  - DOMAIN-SUFFIX,apple.co,Apple
+  - DOMAIN-SUFFIX,apple.cn,Apple
   
-  # Google服务
+  # Google 服务
   - DOMAIN-SUFFIX,google.com,Google
-  - DOMAIN-SUFFIX,gmail.com,Google
-  - DOMAIN-SUFFIX,youtube.com,Google
-  - DOMAIN-SUFFIX,googleapis.com,Google
+  - DOMAIN-SUFFIX,google.co.jp,Google
   - DOMAIN-SUFFIX,googlevideo.com,Google
+  - DOMAIN-SUFFIX,googleusercontent.com,Google
+  - DOMAIN-SUFFIX,youtube.com,Google
+  - DOMAIN-SUFFIX,ytimg.com,Google
+  - DOMAIN-SUFFIX,gstatic.com,Google
+  - DOMAIN-SUFFIX,gmail.com,Google
+  - DOMAIN-SUFFIX,googleapis.com,Google
+  - DOMAIN-SUFFIX,googleadservices.com,Google
+  - DOMAIN-SUFFIX,googleapis.cn,Google
+  - DOMAIN-SUFFIX,google.hk,Google
+  
+  # Microsoft 服务
+  - DOMAIN-SUFFIX,microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,msecnd.net,Microsoft
+  - DOMAIN-SUFFIX,msedge.net,Microsoft
+  - DOMAIN-SUFFIX,windows.net,Microsoft
+  - DOMAIN-SUFFIX,windows.com,Microsoft
+  - DOMAIN-SUFFIX,microsoftonline.com,Microsoft
+  - DOMAIN-SUFFIX,office.com,Microsoft
+  - DOMAIN-SUFFIX,office365.com,Microsoft
+  - DOMAIN-SUFFIX,outlook.com,Microsoft
+  - DOMAIN-SUFFIX,live.com,Microsoft
+  - DOMAIN-SUFFIX,bing.com,Microsoft
+  - DOMAIN-SUFFIX,visualstudio.com,Microsoft
+  - DOMAIN-SUFFIX,github.com,Microsoft
+  - DOMAIN-SUFFIX,github.io,Microsoft
+  - DOMAIN-SUFFIX,githubusercontent.com,Microsoft
+  - DOMAIN-SUFFIX,skype.com,Microsoft
+  
+  # Netflix 相关
+  - DOMAIN-SUFFIX,netflix.com,Netflix
+  - DOMAIN-SUFFIX,netflix.net,Netflix
+  - DOMAIN-SUFFIX,nflxext.com,Netflix
+  - DOMAIN-SUFFIX,nflximg.com,Netflix
+  - DOMAIN-SUFFIX,nflximg.net,Netflix
+  - DOMAIN-SUFFIX,nflxso.net,Netflix
+  - DOMAIN-SUFFIX,nflxvideo.net,Netflix
   
   # 常用国外网站
-  - DOMAIN-SUFFIX,claude.ai,PROXY
-  - DOMAIN-SUFFIX,claude.com,PROXY
   - DOMAIN-SUFFIX,openai.com,PROXY
   - DOMAIN-SUFFIX,chatgpt.com,PROXY
-  - DOMAIN-SUFFIX,github.com,PROXY
-  - DOMAIN-SUFFIX,github.io,PROXY
-  - DOMAIN-SUFFIX,githubusercontent.com,PROXY
+  - DOMAIN-SUFFIX,anthropic.com,PROXY
+  - DOMAIN-SUFFIX,discord.com,PROXY
+  - DOMAIN-SUFFIX,t.co,PROXY
   - DOMAIN-SUFFIX,twitter.com,PROXY
-  - DOMAIN-SUFFIX,instagram.com,PROXY
+  - DOMAIN-SUFFIX,twimg.com,PROXY
   - DOMAIN-SUFFIX,facebook.com,PROXY
-  - DOMAIN-SUFFIX,netflix.com,PROXY
+  - DOMAIN-SUFFIX,fbcdn.net,PROXY
+  - DOMAIN-SUFFIX,instagram.com,PROXY
+  - DOMAIN-SUFFIX,cdninstagram.com,PROXY
+  - DOMAIN-SUFFIX,telegram.org,PROXY
+  - DOMAIN-SUFFIX,telegram.me,PROXY
+  - DOMAIN-SUFFIX,t.me,PROXY
+  - DOMAIN-SUFFIX,pinimg.com,PROXY
+  - DOMAIN-SUFFIX,pinterest.com,PROXY
   - DOMAIN-SUFFIX,spotify.com,PROXY
+  - DOMAIN-SUFFIX,scdn.co,PROXY
+  - DOMAIN-SUFFIX,reddit.com,PROXY
+  - DOMAIN-SUFFIX,redditmedia.com,PROXY
+  - DOMAIN-SUFFIX,redditstatic.com,PROXY
+  - DOMAIN-SUFFIX,amazon.com,PROXY
+  - DOMAIN-SUFFIX,medium.com,PROXY
+  - DOMAIN-SUFFIX,vimeo.com,PROXY
+  - DOMAIN-SUFFIX,twitch.tv,PROXY
   
+  # 学术网站
+  - DOMAIN-SUFFIX,sci-hub.tw,PROXY
+  - DOMAIN-SUFFIX,sci-hub.st,PROXY
+  - DOMAIN-SUFFIX,sci-hub.se,PROXY
+  - DOMAIN-SUFFIX,libgen.is,PROXY
+  - DOMAIN-SUFFIX,jstor.org,PROXY
+  - DOMAIN-SUFFIX,researchgate.net,PROXY
+  - DOMAIN-SUFFIX,springer.com,PROXY
+  - DOMAIN-SUFFIX,arxiv.org,PROXY
+  - DOMAIN-SUFFIX,ieee.org,PROXY
+  - DOMAIN-SUFFIX,nature.com,PROXY
+  - DOMAIN-SUFFIX,sciencedirect.com,PROXY
+  - DOMAIN-SUFFIX,acm.org,PROXY
+
   # 局域网和保留地址直连
-  - IP-CIDR,192.168.0.0/16,DIRECT
   - IP-CIDR,10.0.0.0/8,DIRECT
-  - IP-CIDR,172.16.0.0/12,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,224.0.0.0/4,DIRECT
+  
+  # 中国IP直连
+  - GEOIP,CN,DIRECT
   
   # 最终规则
-  - GEOIP,CN,DIRECT
-  - MATCH,PROXY
+  - MATCH,Global
